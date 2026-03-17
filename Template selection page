@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Select Template</title>
+
+<style>
+
+.templates{
+display:flex;
+gap:20px;
+justify-content:center;
+margin-top:40px;
+}
+
+.template{
+width:220px;
+background:white;
+padding:15px;
+box-shadow:0 0 10px gray;
+text-align:center;
+}
+
+button{
+background:#28a745;
+color:white;
+padding:10px 15px;
+border:none;
+cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2 style="text-align:center">Choose Resume Template</h2>
+
+<div class="templates">
+
+<div class="template">
+
+<h3>Template 1</h3>
+
+<button onclick="location.href='form.html'">
+
+Use Template
+
+</button>
+
+</div>
+
+<div class="template">
+
+<h3>Template 2</h3>
+
+<button onclick="location.href='form.html'">
+
+Use Template
+
+</button>
+
+</div>
+
+</div>
+
+</body>
+</html>
