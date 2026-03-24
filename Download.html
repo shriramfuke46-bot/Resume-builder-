@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>YouTube Downloader</title>
+<style>
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f5f5f5;
+}
+.container {
+  margin-top: 100px;
+}
+input {
+  width: 60%;
+  padding: 10px;
+}
+button {
+  padding: 10px 20px;
+  background: red;
+  color: white;
+  border: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>YouTube Video Downloader</h1>
+
+  <input type="text" id="url" placeholder="Paste YouTube Link">
+  <br><br>
+
+  <button onclick="previewVideo()">Preview</button>
+
+  <div id="preview"></div>
+</div>
+
+<script>
+function previewVideo() {
+  let url = document.getElementById("url").value;
+
+  let videoId = url.split("v=")[1];
+  let embed = "https://www.youtube.com/embed/" + videoId;
+
+  document.getElementById("preview").innerHTML =
+    `<iframe width="400" height="250" src="${embed}" frameborder="0"></iframe>
+     <br><br>
+     <a href="https://yt1s.com/en?q=${url}" target="_blank">
+       Download Video
+     </a>`;
+}
+</script>
+
+</body>
+</html>
