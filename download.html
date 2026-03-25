@@ -1,25 +1,49 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>YouTube Downloader</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Festival Poster Maker</title>
+
 <style>
-body {
-  font-family: Arial;
-  text-align: center;
-  background: #f5f5f5;
+body{
+  margin:0;
+  font-family:Arial;
+  text-align:center;
+  background:linear-gradient(135deg,#ff9a9e,#fad0c4);
 }
-.container {
-  margin-top: 100px;
+
+.container{
+  padding:20px;
 }
-input {
-  width: 60%;
-  padding: 10px;
+
+.box{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  max-width:400px;
+  margin:auto;
 }
-button {
-  padding: 10px 20px;
-  background: red;
-  color: white;
-  border: none;
+
+input,select{
+  width:90%;
+  padding:10px;
+  margin:10px;
+}
+
+button{
+  padding:10px 20px;
+  background:#ff4d4d;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+canvas{
+  margin-top:20px;
+  border-radius:10px;
 }
 </style>
 </head>
@@ -27,29 +51,73 @@ button {
 <body>
 
 <div class="container">
-  <h1>YouTube Video Downloader</h1>
+  <h2>🎉 Festival Poster Maker</h2>
 
-  <input type="text" id="url" placeholder="Paste YouTube Link">
-  <br><br>
+  <div class="box">
+    <input type="text" id="name" placeholder="Enter Your Name">
 
-  <button onclick="previewVideo()">Preview</button>
+    <input type="file" id="photo">
 
-  <div id="preview"></div>
+    <select id="festival">
+      <option value="ganpati">Ganpati</option>
+      <option value="diwali">Diwali</option>
+    </select>
+
+    <button onclick="generatePoster()">Generate Poster</button>
+    <button onclick="downloadPoster()">Download</button>
+  </div>
+
+  <canvas id="canvas" width="300" height="400"></canvas>
 </div>
 
 <script>
-function previewVideo() {
-  let url = document.getElementById("url").value;
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
 
-  let videoId = url.split("v=")[1];
-  let embed = "https://www.youtube.com/embed/" + videoId;
+function generatePoster(){
+  let name = document.getElementById("name").value;
+  let festival = document.getElementById("festival").value;
+  let photo = document.getElementById("photo").files[0];
 
-  document.getElementById("preview").innerHTML =
-    `<iframe width="400" height="250" src="${embed}" frameborder="0"></iframe>
-     <br><br>
-     <a href="https://yt1s.com/en?q=${url}" target="_blank">
-       Download Video
-     </a>`;
+  let bg = new Image();
+
+  if(festival === "ganpati"){
+    bg.src = "https://i.imgur.com/6Iej2c3.jpg";
+  }else{
+    bg.src = "https://i.imgur.com/Z6X7Z8S.jpg";
+  }
+
+  bg.onload = function(){
+    ctx.drawImage(bg,0,0,300,400);
+
+    if(photo){
+      let reader = new FileReader();
+      reader.onload = function(e){
+        let userImg = new Image();
+        userImg.src = e.target.result;
+
+        userImg.onload = function(){
+          ctx.drawImage(userImg,100,120,100,100);
+
+          ctx.fillStyle = "white";
+          ctx.font = "20px Arial";
+          ctx.fillText(name,80,350);
+        }
+      }
+      reader.readAsDataURL(photo);
+    }else{
+      ctx.fillStyle = "white";
+      ctx.font = "20px Arial";
+      ctx.fillText(name,80,350);
+    }
+  }
+}
+
+function downloadPoster(){
+  let link = document.createElement('a');
+  link.download = "poster.png";
+  link.href = canvas.toDataURL();
+  link.click();
 }
 </script>
 
