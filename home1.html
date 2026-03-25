@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Advanced Poster Maker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  display:flex;
+  height:100vh;
+}
+
+.sidebar{
+  width:200px;
+  background:#111;
+  color:white;
+  padding:10px;
+}
+
+.sidebar button{
+  width:100%;
+  padding:10px;
+  margin:5px 0;
+  border:none;
+  background:#444;
+  color:white;
+  cursor:pointer;
+}
+
+.main{
+  flex:1;
+  background:#eee;
+  display:flex;
+  flex-direction:column;
+}
+
+.toolbar{
+  background:white;
+  padding:10px;
+  display:flex;
+  gap:10px;
+}
+
+canvas{
+  background:white;
+  margin:auto;
+  border:1px solid #ccc;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h3>Tools</h3>
+  <button onclick="addText()">Add Text</button>
+  <button onclick="addShape()">Add Box</button>
+  <input type="file" onchange="addImage(event)">
+  <button onclick="download()">Download</button>
+</div>
+
+<div class="main">
+  <div class="toolbar">
+    <input type="color" id="color">
+    <input type="range" id="size" min="10" max="50">
+  </div>
+
+  <canvas id="canvas" width="350" height="500"></canvas>
+</div>
+
+<script>
+let canvas = document.getElementById("canvas");
+let ctx = canvas.getContext("2d");
+
+let elements = [];
+let selected = null;
+
+canvas.addEventListener("mousedown", e=>{
+  let x = e.offsetX;
+  let y = e.offsetY;
+
+  selected = elements.find(el =>
+    x > el.x && x < el.x+el.w &&
+    y > el.y && y < el.y+el.h
+  );
+});
+
+canvas.addEventListener("mousemove", e=>{
+  if(selected){
+    selected.x = e.offsetX - selected.w/2;
+    selected.y = e.offsetY - selected.h/2;
+    draw();
+  }
+});
+
+canvas.addEventListener("mouseup", ()=> selected=null);
+
+function addText(){
+  let text = prompt("Enter text");
+  elements.push({
+    type:"text",
+    text:text,
+    x:50,y:50,
+    w:100,h:30,
+    color:"#000",
+    size:20
+  });
+  draw();
+}
+
+function addShape(){
+  elements.push({
+    type:"rect",
+    x:100,y:100,
+    w:100,h:60,
+    color:"#ff0000"
+  });
+  draw();
+}
+
+function addImage(e){
+  let file = e.target.files[0];
+  let reader = new FileReader();
+
+  reader.onload = function(ev){
+    let img = new Image();
+    img.src = ev.target.result;
+
+    img.onload = function(){
+      elements.push({
+        type:"img",
+        img:img,
+        x:80,y:80,
+        w:100,h:100
+      });
+      draw();
+    }
+  }
+  reader.readAsDataURL(file);
+}
+
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+
+  elements.forEach(el=>{
+    if(el.type==="text"){
+      ctx.fillStyle = document.getElementById("color").value || el.color;
+      ctx.font = (document.getElementById("size").value || el.size)+"px Arial";
+      ctx.fillText(el.text,el.x,el.y);
+    }
+    if(el.type==="rect"){
+      ctx.fillStyle = el.color;
+      ctx.fillRect(el.x,el.y,el.w,el.h);
+    }
+    if(el.type==="img"){
+      ctx.drawImage(el.img,el.x,el.y,el.w,el.h);
+    }
+  });
+}
+
+function download(){
+  let link = document.createElement("a");
+  link.download="poster.png";
+  link.href = canvas.toDataURL();
+  link.click();
+}
+</script>
+
+</body>
+</html>
