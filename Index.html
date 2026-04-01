@@ -1,1 +1,134 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Resume Builder</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .form-section, .preview-section {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 300px;
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            color: #555;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        /* Resume Preview Styles */
+        #resName { font-size: 28px; color: #222; text-transform: uppercase; margin-bottom: 5px; }
+        #resContact { color: #666; margin-bottom: 20px; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        .section-title { font-size: 18px; color: #007bff; margin-top: 20px; text-transform: uppercase; border-bottom: 1px solid #ddd; }
+        .res-text { white-space: pre-wrap; margin-top: 10px; color: #444; line-height: 1.6; }
+
+        /* Hide form when printing */
+        @media print {
+            body { background: white; padding: 0; }
+            .form-section { display: none; }
+            .preview-section { box-shadow: none; border: none; width: 100%; }
+            button { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="form-section">
+        <h2>Apni Details Bharein</h2>
+        
+        <label>Pura Naam</label>
+        <input type="text" id="name" placeholder="E.g. Rahul Kumar" oninput="generateResume()">
+
+        <label>Email & Phone</label>
+        <input type="text" id="contact" placeholder="rahul@email.com | +91-9876543210" oninput="generateResume()">
+
+        <label>Professional Summary</label>
+        <textarea id="summary" rows="3" placeholder="Apne baare mein thoda likhein..." oninput="generateResume()"></textarea>
+
+        <label>Education (Shiksha)</label>
+        <textarea id="education" rows="3" placeholder="B.Tech from XYZ University (2018-2022)" oninput="generateResume()"></textarea>
+
+        <label>Work Experience (Anubhav)</label>
+        <textarea id="experience" rows="4" placeholder="Software Developer at ABC Corp..." oninput="generateResume()"></textarea>
+
+        <label>Skills</label>
+        <textarea id="skills" rows="2" placeholder="HTML, CSS, JavaScript, Python" oninput="generateResume()"></textarea>
+
+        <button onclick="window.print()">Download PDF / Print</button>
+    </div>
+
+    <div class="preview-section" id="resume-template">
+        <h1 id="resName">Aapka Naam</h1>
+        <div id="resContact">Email | Phone Number</div>
+
+        <div class="section-title">Summary</div>
+        <div class="res-text" id="resSummary">Aapki summary yahan aayegi.</div>
+
+        <div class="section-title">Education</div>
+        <div class="res-text" id="resEducation">Aapki education details yahan aayengi.</div>
+
+        <div class="section-title">Experience</div>
+        <div class="res-text" id="resExperience">Aapka work experience yahan aayega.</div>
+
+        <div class="section-title">Skills</div>
+        <div class="res-text" id="resSkills">Aapki skills yahan dikhengi.</div>
+    </div>
+</div>
+
+<script>
+    // Live update function
+    function generateResume() {
+        document.getElementById('resName').innerText = document.getElementById('name').value || 'Aapka Naam';
+        document.getElementById('resContact').innerText = document.getElementById('contact').value || 'Email | Phone Number';
+        document.getElementById('resSummary').innerText = document.getElementById('summary').value || 'Aapki summary yahan aayegi.';
+        document.getElementById('resEducation').innerText = document.getElementById('education').value || 'Aapki education details yahan aayengi.';
+        document.getElementById('resExperience').innerText = document.getElementById('experience').value || 'Aapka work experience yahan aayega.';
+        document.getElementById('resSkills').innerText = document.getElementById('skills').value || 'Aapki skills yahan dikhengi.';
+    }
+</script>
+
+</body>
+</html>
