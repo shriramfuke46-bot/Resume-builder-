@@ -1,0 +1,20 @@
+
+body { font-family: 'Arial', sans-serif; background: #f4f4f4; text-align: center; margin: 0; }
+.container { padding: 50px; }
+input, textarea { width: 80%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+button { background: #5a3e3e; color: white; padding: 15px 30px; border: none; cursor: pointer; border-radius: 5px; font-size: 16px; }
+.back-btn { background: #666; margin-left: 10px; }
+
+/* Resume Styles */
+#resume-content { background: white; width: 800px; margin: 20px auto; min-height: 1000px; text-align: left; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+
+/* Template 1 (Brown Side Bar) */
+.temp1-grid { display: grid; grid-template-columns: 1fr 2fr; height: 100%; }
+.side-bar { background: #6d544e; color: white; padding: 40px 20px; }
+.main-bar { padding: 40px; color: #333; }
+
+/* Template 2 (Grey Accent) */
+.temp2-header { background: #555; color: white; padding: 40px; text-align: right; }
+.temp2-body { display: flex; padding: 20px; }
+.temp2-left { width: 30%; border-right: 1px solid #ddd; padding: 20px; }
+.temp2-right { width: 70%; padding: 20px; }
