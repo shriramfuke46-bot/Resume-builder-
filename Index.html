@@ -1,51 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Resume Builder</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>StudyHub - Free Study Material</title>
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  background: #020617;
+  padding: 15px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  padding: 30px;
+}
+
+/* ===== CARDS ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  background: #334155;
+}
+
+.card a {
+  color: #38bdf8;
+  text-decoration: none;
+}
+
+/* ===== SEARCH ===== */
+.search-box {
+  text-align: center;
+  margin: 20px;
+}
+
+input {
+  padding: 10px;
+  width: 60%;
+  border-radius: 5px;
+  border: none;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #020617;
+}
+
+</style>
 </head>
 <body>
 
-<div class="container">
-  
-  <!-- FORM SECTION -->
-  <div class="form">
-    <h2>Enter Details</h2>
-
-    <input type="text" id="name" placeholder="Full Name">
-    <input type="email" id="email" placeholder="Email">
-    <input type="text" id="phone" placeholder="Phone">
-
-    <textarea id="education" placeholder="Education"></textarea>
-    <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
-    <textarea id="experience" placeholder="Experience"></textarea>
-
-    <button onclick="generateResume()">Generate Resume</button>
-    <button onclick="downloadPDF()">Download PDF</button>
-
-  </div>
-
-  <!-- PREVIEW SECTION -->
-  <div class="preview" id="resume">
-    <h1 id="pname">Your Name</h1>
-    <p id="pemail">Email</p>
-    <p id="pphone">Phone</p>
-
-    <h3>Education</h3>
-    <p id="pedu"></p>
-
-    <h3>Skills</h3>
-    <p id="pskills"></p>
-
-    <h3>Experience</h3>
-    <p id="pexp"></p>
-  </div>
-
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="#books">Books</a>
+  <a href="#pyq">PYQ</a>
+  <a href="#notes">Notes</a>
 </div>
 
-<script src="script.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<h1>📚 StudyHub - Free Study Material</h1>
+
+<!-- SEARCH -->
+<div class="search-box">
+  <input type="text" id="search" placeholder="Search books, notes...">
+</div>
+
+<!-- BOOKS -->
+<div class="section" id="books">
+  <h2>📘 Competitive Books PDF</h2>
+  <div class="grid" id="bookList">
+    
+    <div class="card">
+      <h3>SSC Maths Book</h3>
+      <a href="#">Download PDF</a>
+    </div>
+
+    <div class="card">
+      <h3>RRB Reasoning</h3>
+      <a href="#">Download PDF</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- PYQ -->
+<div class="section" id="pyq">
+  <h2>📄 Exam Wise PYQ</h2>
+  <div class="grid">
+    
+    <div class="card">
+      <h3>SSC JE PYQ</h3>
+      <a href="#">View Papers</a>
+    </div>
+
+    <div class="card">
+      <h3>GATE PYQ</h3>
+      <a href="#">View Papers</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- NOTES -->
+<div class="section" id="notes">
+  <h2>📝 Notes</h2>
+  <div class="grid">
+    
+    <div class="card">
+      <h3>Engineering Notes</h3>
+      <a href="#">Open Notes</a>
+    </div>
+
+    <div class="card">
+      <h3>Maths Short Notes</h3>
+      <a href="#">Open Notes</a>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>© 2026 StudyHub | Free Education Platform</p>
+</div>
+
+<script>
+
+// SEARCH FILTER
+document.getElementById("search").addEventListener("keyup", function() {
+  let value = this.value.toLowerCase();
+  let cards = document.querySelectorAll(".card");
+
+  cards.forEach(card => {
+    card.style.display = card.innerText.toLowerCase().includes(value) ? "block" : "none";
+  });
+});
+
+</script>
 
 </body>
 </html>
