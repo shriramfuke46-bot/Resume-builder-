@@ -1,181 +1,51 @@
 <!DOCTYPE html>
-<html lang="mr">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Professional Resume Builder</title>
-    <style>
-        /* CSS Code */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #1a73e8;
-        }
-
-        .input-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 14px;
-            box-sizing: border-box;
-        }
-
-        textarea {
-            grid-column: span 2;
-            height: 100px;
-        }
-
-        .btn-container {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        button {
-            padding: 12px 25px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            margin: 5px;
-            transition: 0.3s;
-        }
-
-        .generate-btn { background-color: #1a73e8; color: white; }
-        .generate-btn:hover { background-color: #1557b0; }
-
-        .print-btn { background-color: #34a853; color: white; }
-        .print-btn:hover { background-color: #2d8a46; }
-
-        /* Resume Preview Styling */
-        #resume-preview {
-            border: 2px solid #eee;
-            padding: 40px;
-            min-height: 600px;
-            background: #fff;
-        }
-
-        .preview-header {
-            border-bottom: 3px solid #1a73e8;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .preview-header h2 { margin: 0; color: #333; text-transform: uppercase; }
-        .preview-header p { margin: 5px 0; color: #666; font-weight: bold; }
-
-        .preview-section { margin-bottom: 20px; }
-        .preview-section h3 { border-bottom: 1px solid #ddd; padding-bottom: 5px; color: #1a73e8; }
-
-        /* Print Settings */
-        @media print {
-            .no-print, .header, .input-group, .btn-container {
-                display: none !important;
-            }
-            body { background: white; padding: 0; }
-            .container { box-shadow: none; border: none; width: 100%; max-width: 100%; }
-            #resume-preview { border: none; padding: 0; }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Resume Builder</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="container">
-        <div class="header no-print">
-            <h1>Resume Builder</h1>
-            <p>Tumchi mahiti bhara ani instant resume tayar kara.</p>
-        </div>
+<div class="container">
+  
+  <!-- FORM SECTION -->
+  <div class="form">
+    <h2>Enter Details</h2>
 
-        <div class="input-group no-print">
-            <input type="text" id="name" placeholder="Purna Nav">
-            <input type="text" id="title" placeholder="Job Title (e.g. Software Engineer)">
-            <input type="email" id="email" placeholder="Email Address">
-            <input type="text" id="phone" placeholder="Phone Number">
-            <input type="text" id="location" placeholder="Shahar / Rajya">
-            <input type="text" id="skills" placeholder="Skills (e.g. HTML, CSS, Java)">
-            <textarea id="summary" placeholder="Tumchya baddal mahiti (Summary)..."></textarea>
-            <textarea id="experience" placeholder="Anubhav (Experience)..."></textarea>
-        </div>
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="phone" placeholder="Phone">
 
-        <div class="btn-container no-print">
-            <button class="generate-btn" onclick="updateResume()">Resume Update Kara</button>
-            <button class="print-btn" onclick="window.print()">PDF Download Kara</button>
-        </div>
+    <textarea id="education" placeholder="Education"></textarea>
+    <textarea id="skills" placeholder="Skills (comma separated)"></textarea>
+    <textarea id="experience" placeholder="Experience"></textarea>
 
-        <div id="resume-preview">
-            <div class="preview-header">
-                <h2 id="resName">Tumche Nav</h2>
-                <p id="resTitle">Software Developer</p>
-                <span id="resEmail">email@example.com</span> | <span id="resPhone">9876543210</span> | <span id="resLoc">Location</span>
-            </div>
+    <button onclick="generateResume()">Generate Resume</button>
+    <button onclick="downloadPDF()">Download PDF</button>
 
-            <div class="preview-section">
-                <h3>Summary</h3>
-                <p id="resSummary">Tumchi summary yithe disel...</p>
-            </div>
+  </div>
 
-            <div class="preview-section">
-                <h3>Skills</h3>
-                <p id="resSkills">Yithe tumche skills yetil.</p>
-            </div>
+  <!-- PREVIEW SECTION -->
+  <div class="preview" id="resume">
+    <h1 id="pname">Your Name</h1>
+    <p id="pemail">Email</p>
+    <p id="pphone">Phone</p>
 
-            <div class="preview-section">
-                <h3>Work Experience</h3>
-                <p id="resExp" style="white-space: pre-line;">Tumcha anubhav yithe disel.</p>
-            </div>
-        </div>
-    </div>
+    <h3>Education</h3>
+    <p id="pedu"></p>
 
-    <script>
-        /* JavaScript Code */
-        function updateResume() {
-            // Form madhil data ghenyasathi
-            const name = document.getElementById('name').value;
-            const title = document.getElementById('title').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const loc = document.getElementById('location').value;
-            const skills = document.getElementById('skills').value;
-            const summary = document.getElementById('summary').value;
-            const exp = document.getElementById('experience').value;
+    <h3>Skills</h3>
+    <p id="pskills"></p>
 
-            // Preview madhe update karnyathi
-            document.getElementById('resName').innerText = name || "Tumche Nav";
-            document.getElementById('resTitle').innerText = title || "Job Title";
-            document.getElementById('resEmail').innerText = email || "email@example.com";
-            document.getElementById('resPhone').innerText = phone || "9876543210";
-            document.getElementById('resLoc').innerText = loc || "Location";
-            document.getElementById('resSkills').innerText = skills || "Skills details";
-            document.getElementById('resSummary').innerText = summary || "Summary goes here...";
-            document.getElementById('resExp').innerText = exp || "Experience details go here...";
-        }
-    </script>
+    <h3>Experience</h3>
+    <p id="pexp"></p>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 </body>
 </html>
